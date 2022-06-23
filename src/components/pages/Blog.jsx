@@ -68,13 +68,7 @@ export default function Blog() {
         }
     }
 
-    const allComments = comments.map((comment) => {
-        return(
-            <div key={comment._id}>
-                <Comments comment={comment.content} initialCommentForm = {{content: comment.content}} id={id} />
-            </div>
-        )
-    })
+    
   return (
     <div>
         {
@@ -94,7 +88,8 @@ export default function Blog() {
             { showForm ? 'Cancel' : 'Edit Blog'}
         </button>
     
-        {allComments}
+        <Comments comments={comments} id={id} />
+        
          <h1>Add a comment:</h1> 
          <CommentForm 
          submitCommentHandler={handleCommentSubmit}

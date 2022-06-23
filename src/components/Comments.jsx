@@ -7,6 +7,8 @@ export default function Comments({comments, id, initialCommentForm}) {
     const [showCommentForm, setShowCommentForm] = useState(false)
     const[commentForm, setCommentForm] = useState(initialCommentForm)
     const [thisComment, setThisComment] = useState({})
+
+    
     const allComments = comments.map((comment) => {
       return(
           <div key={comment._id}>

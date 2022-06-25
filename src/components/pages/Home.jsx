@@ -28,8 +28,9 @@ export default function Home() {
         try {
             // post to the backend
             const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/blogs`, form)
-            const blogResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/blogs`)
-            setBlogs(blogResponse.data)
+            // const blogResponse = await axios.get(`${process.env.REACT_APP_SERVER_URL}/blogs`)
+            // setBlogs(blogResponse.data)
+            setBlogs([...blogs, response.data])
             console.log(response)
             // clear form once it submits successfully
             setForm({

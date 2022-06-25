@@ -13,8 +13,9 @@ export default function Blog() {
     // whether or not the form is shown
     const [showForm, setShowForm] = useState(false)
     // grab comments
-    const [comment, setComment] = useState({})
+    // const [comment, setComment] = useState({})
     const [comments, setComments] = useState([])
+    
 
     
     const { id } = useParams()
@@ -38,20 +39,20 @@ export default function Blog() {
         e.preventDefault()
         try {
             const response = await axios.post(`${process.env.REACT_APP_SERVER_URL}/blogs/${id}/comment`, form)
-            setComment(response.data)
-            setComments([...comments, comment])
+            // setComment(response.data)
+            setComments(response.data.comments)
             // setCommentForm({content:''})
         } catch (error) {
             console.log(error)
         }
     }
 
-    const handleSubmit = async (e, form, setShowForm) => {
+    const handleSubmit = async (e, form) => {
         e.preventDefault()
         try {
-           const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/blogs/${id}`, form)
-           setBlog(response.data)
-           setShowForm(false)
+            const response = await axios.put(`${process.env.REACT_APP_SERVER_URL}/blogs/${id}`, form)
+            setBlog(response.data)
+            setShowForm(false)
         } catch (error) {
             console.log(error)
         }
@@ -67,6 +68,18 @@ export default function Blog() {
             console.log(error)
         }
     }
+
+    const allComments = comments.map((com) => {
+        return(
+            <div key={com._id}>
+              <Comments 
+              com={com}
+              blogId={id}
+              setComments={setComments}
+              />
+            </div>
+        )
+    })
 
     
   return (
@@ -87,15 +100,6 @@ export default function Blog() {
         >
             { showForm ? 'Cancel' : 'Edit Blog'}
         </button>
-    
-        <Comments comments={comments} id={id} />
-        
-         <h1>Add a comment:</h1> 
-         <CommentForm 
-         submitCommentHandler={handleCommentSubmit}
-         initialCommentForm = {{content:''}}
-         />
-        
         {
             showForm ?
             <button
@@ -105,6 +109,15 @@ export default function Blog() {
             :
             ''
         }
+        {allComments}
+        
+         <h1>Add a comment:</h1> 
+         <CommentForm 
+         submitCommentHandler={handleCommentSubmit}
+         initialCommentForm = {{content:''}}
+         />
+        
+        
     </div>
   )
 }
